@@ -523,3 +523,136 @@ body.solo-mode .btn-ctrl { width: 80px; height: 80px; font-size: 3rem; }
 .modal-btn-row { display: flex; gap: 12px; width: 100%; max-width: 280px; margin-top: 10px; }
 .btn-launch-coin { flex: 1; background: #0ea5e9; color: #000; text-align: center; font-size: 1rem; padding: 12px; }
 .btn-dismiss-modal { flex: 1; background: #222; text-align: center; font-size: 1rem; padding: 12px; }
+
+/* Bouton Fin de Manche dynamique aux couleurs de l'aspect */
+.btn-round-end {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--p1-color, rgba(56, 189, 248, 0.4));
+  color: var(--p1-color, #94a3b8);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5), inset 0 0 4px var(--p1-glow, transparent);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-round-end:active {
+  background: var(--p1-color, #38bdf8);
+  color: #0b1329;
+  transform: scale(0.96);
+}
+
+/* Visibilité : masqué en mode 2 joueurs par défaut */
+body:not(.single-player) .solo-only {
+  display: none !important;
+}
+
+/* Modale Fin de Manche */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.modal-card {
+  background: #0b1329;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+  width: 85%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+.modal-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+
+.modal-card p {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0 0 18px 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-modal-win, .btn-modal-loss {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.btn-modal-win {
+  background: #15803d;
+  color: #dcfce7;
+  border: 1px solid #22c55e;
+}
+
+.btn-modal-win:active {
+  background: #166534;
+}
+
+.btn-modal-loss {
+  background: #991b1b;
+  color: #fee2e2;
+  border: 1px solid #ef4444;
+}
+
+.btn-modal-loss:active {
+  background: #7f1d1d;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-modal-reset, .btn-modal-cancel {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.btn-modal-reset {
+  color: #f59e0b;
+}
+
+.btn-modal-cancel {
+  color: #475569;
+}

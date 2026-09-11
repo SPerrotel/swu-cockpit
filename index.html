@@ -63,6 +63,9 @@
         <button class="record-badge" onclick="cyclePlayerWins('p1')" id="record-p1">V: 0 | D: 0</button>
         <div class="damage-display" id="dmg-p1">0</div>
         <button class="btn-base-badge" onclick="cycleBaseCap('p1')" id="base-cap-p1">🛡️ MAX: 30 ↺</button>
+        <button id="btn-round-end" class="btn-round-end solo-only" onclick="openRoundModal()">
+          <span>⚔️ Fin de manche</span>
+        </button>
       </div>
       <button class="btn-ctrl" onclick="adjustDamage('p1', 1)">+</button>
     </div>
@@ -134,6 +137,25 @@
       <button class="menu-item btn-dismiss-modal" onclick="closeCoinModal()">FERMER</button>
     </div>
   </div>
+
+   </div>
+
+  <script src="app.js"></script>
+
+  <div id="round-modal" class="modal-overlay hidden" onclick="closeRoundModal(event)">
+  <div class="modal-card">
+    <h3>Fin de manche</h3>
+    <p>Sélectionne l'issue de cette game :</p>
+    <div class="modal-actions">
+      <button class="btn-modal-win" onclick="confirmRoundResult('win')">Victoire</button>
+      <button class="btn-modal-loss" onclick="confirmRoundResult('loss')">Défaite</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-reset" onclick="resetMatchScore()">Remettre le score à 0 - 0</button>
+      <button class="btn-modal-cancel" onclick="closeRoundModalDirect()">Annuler</button>
+    </div>
+  </div>
+</div>
 
   <script src="app.js"></script>
 </body>
