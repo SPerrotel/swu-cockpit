@@ -1,4 +1,4 @@
-const CACHE_NAME = 'swu-cockpit-cache-v4';
+const CACHE_NAME = 'swu-cockpit-cache-v5';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -11,9 +11,7 @@ const ASSETS_TO_CACHE = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
   );
   self.skipWaiting();
 });
@@ -33,7 +31,15 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Stratégie hybride : Network First pour le HTML, Cache First pour les assets
 self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       return cachedResponse || fetch(event.request);

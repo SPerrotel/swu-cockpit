@@ -381,3 +381,19 @@ if ('serviceWorker' in navigator) {
     };
   }).catch(() => {});
 }
+
+// Bouton de secours pour forcer le nettoyage du cache et le rechargement immédiat
+async function forceAppUpdate() {
+  triggerVibration([30, 50, 30]);
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (let registration of registrations) {
+      await registration.unregister();
+    }
+  }
+  if ('caches' in window) {
+    const cacheNames = await caches.keys();
+    await Promise.all(cacheNames.map(name => caches.delete(name)));
+  }
+  window.location.reload(true);
+}
