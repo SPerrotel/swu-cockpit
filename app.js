@@ -338,14 +338,33 @@ function triggerPwaInstall() {
   }
 }
 
-// Maintien de l'écran allumé pendant les parties
-document.addEventListener('click', async () => {
-  try {
-    if ('wakeLock' in navigator) {
-      await navigator.wakeLock.request('screen');
-    }
-  } catch (err) {}
-}, { once: true });
+// --- MAINTIEN DE L'ÉCRAN ACTIF (WAKE LOCK ROBUSTE) ---
+let wakeLockSentinel = null;
+
+async function requestScreenWakeLock() {
+  if ('wakeLock' in navigator) {
+    try {
+      wakeLockSentinel = await navigator.wakeLock.request('screen');
+      wakeLockSentinel.addEventListener('release', () => {
+        wakeLockSentinel = null;
+      });
+    } catch (err) {}
+  }
+}
+
+// Déclenche dès le premier clic n'importe où
+document.addEventListener('click', () => {
+  if (!wakeLockSentinel) {
+    requestScreenWakeLock();
+  }
+});
+
+// Réactive automatiquement si le joueur quitte puis revient sur l'application
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    requestScreenWakeLock();
+  }
+});
 
 // Enregistrement du Service Worker avec rechargement automatique à la mise à jour
 if ('serviceWorker' in navigator) {
