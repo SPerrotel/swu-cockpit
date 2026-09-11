@@ -101,19 +101,13 @@ body {
 
 .zone-p2 {
   background: radial-gradient(circle at center, var(--p2-bg) 0%, rgba(11,14,20,0) 80%);
-  border: 1.5px solid var(--p2-color);
-  box-shadow: inset 0 0 16px var(--p2-shadow);
-  border-radius: 12px 12px 0 0;
-  margin: 6px 6px 0 6px;
+  border: none !important;
   transform: rotate(180deg);
 }
 
 .zone-p1 {
   background: radial-gradient(circle at center, var(--p1-bg) 0%, rgba(11,14,20,0) 80%);
-  border: 1.5px solid var(--p1-color);
-  box-shadow: inset 0 0 16px var(--p1-shadow);
-  border-radius: 0 0 12px 12px;
-  margin: 0 6px 6px 6px;
+  border: none !important;
 }
 
 /* Bloc d'affichage et modification des dégâts */
@@ -324,8 +318,8 @@ body {
 .center-divider {
   height: 42px;
   background: #05070a;
-  border-top: 1px solid #1e293b;
-  border-bottom: 1px solid #1e293b;
+  border-top: 2px solid var(--p2-color, #ef4444) !important;
+  border-bottom: 2px solid var(--p1-color, #38bdf8) !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
