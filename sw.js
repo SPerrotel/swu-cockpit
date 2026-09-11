@@ -1,9 +1,9 @@
-const CACHE_NAME = 'swu-cockpit-v10';
+const CACHE_NAME = 'swu-cockpit-v12';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './style.css',
+  './style.css?v=12',
   './app.js',
   './manifest.json',
   './icon.svg',
