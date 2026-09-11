@@ -400,7 +400,7 @@ async function forceAppUpdate() {
 
 // --- GESTION DE FIN DE MANCHE (MODE SOLO) ---
 function openRoundModal() {
-  if (typeof triggerVibration === 'function') triggerVibration(25);
+  triggerVibration(25);
   const modal = document.getElementById('round-modal');
   if (modal) modal.classList.remove('hidden');
 }
@@ -417,50 +417,32 @@ function closeRoundModal(event) {
 }
 
 function confirmRoundResult(result) {
-  if (typeof triggerVibration === 'function') triggerVibration(40);
-
-  // Initialisation de sécurité si l'objet n'existe pas encore
-  if (!window.gameState) window.gameState = {};
-  if (!gameState.p1Score) gameState.p1Score = { v: 0, d: 0 };
+  triggerVibration(40);
 
   if (result === 'win') {
-    gameState.p1Score.v = (gameState.p1Score.v || 0) + 1;
+    player1Wins++;
   } else if (result === 'loss') {
-    gameState.p1Score.d = (gameState.p1Score.d || 0) + 1;
+    player2Wins++;
   }
 
-  // Remet les dégâts P1 à 0 pour la manche suivante
-  if ('p1Damage' in window) {
-    p1Damage = 0;
-  } else if (gameState.p1Damage !== undefined) {
-    gameState.p1Damage = 0;
-  }
+  // Remise à zéro des dégâts de manche
+  player1Damage = 0;
+  player2Damage = 0;
+  document.getElementById('dmg-p1').textContent = '0';
+  document.getElementById('dmg-p2').textContent = '0';
 
-  // Met à jour le texte du badge record-p1
-  const recordBadge = document.getElementById('record-p1');
-  if (recordBadge) {
-    recordBadge.innerText = `V: ${gameState.p1Score.v} | D: ${gameState.p1Score.d}`;
-  }
-
-  // Rafraîchit l'affichage des dégâts
-  if (typeof updateDamageDisplay === 'function') updateDamageDisplay();
-  if (typeof render === 'function') render();
-  if (typeof saveState === 'function') saveState();
+  // Met à jour les badges V / D proprement
+  updateScoreboardUI();
 
   closeRoundModalDirect();
 }
 
 function resetMatchScore() {
-  if (typeof triggerVibration === 'function') triggerVibration([30, 50, 30]);
+  triggerVibration([30, 50, 30]);
 
-  if (!window.gameState) window.gameState = {};
-  gameState.p1Score = { v: 0, d: 0 };
+  player1Wins = 0;
+  player2Wins = 0;
+  updateScoreboardUI();
 
-  const recordBadge = document.getElementById('record-p1');
-  if (recordBadge) {
-    recordBadge.innerText = `V: 0 | D: 0`;
-  }
-
-  if (typeof saveState === 'function') saveState();
   closeRoundModalDirect();
 }

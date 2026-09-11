@@ -524,7 +524,11 @@ body.solo-mode .btn-ctrl { width: 80px; height: 80px; font-size: 3rem; }
 .btn-launch-coin { flex: 1; background: #0ea5e9; color: #000; text-align: center; font-size: 1rem; padding: 12px; }
 .btn-dismiss-modal { flex: 1; background: #222; text-align: center; font-size: 1rem; padding: 12px; }
 
-/* Bouton Fin de Manche dynamique aux couleurs de l'aspect */
+
+/* =========================================
+   BOUTON & MODALE FIN DE MANCHE (SOLO)
+   ========================================= */
+
 .btn-round-end {
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid var(--p1-color, rgba(56, 189, 248, 0.4));
@@ -548,8 +552,8 @@ body.solo-mode .btn-ctrl { width: 80px; height: 80px; font-size: 3rem; }
   transform: scale(0.96);
 }
 
-/* Visibilité : masqué en mode 2 joueurs par défaut */
-body:not(.single-player) .solo-only {
+/* Visibilité : masqué tant que le mode solo n'est pas activé */
+body:not(.solo-mode) .solo-only {
   display: none !important;
 }
 
@@ -568,7 +572,7 @@ body:not(.single-player) .solo-only {
 }
 
 .modal-overlay.hidden {
-  display: none;
+  display: none !important;
   opacity: 0;
 }
 
