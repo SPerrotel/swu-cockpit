@@ -101,13 +101,20 @@ body {
 
 .zone-p2 {
   background: radial-gradient(circle at center, var(--p2-bg) 0%, rgba(11,14,20,0) 80%);
-  border: none !important;
+  /* Cadre néon complet, sans inversion bizarre de la rotation */
+  border: 1.5px solid var(--p2-color, #ef4444);
+  box-shadow: inset 0 0 16px var(--p2-shadow);
+  border-radius: 12px;
+  margin: 6px;
   transform: rotate(180deg);
 }
 
 .zone-p1 {
   background: radial-gradient(circle at center, var(--p1-bg) 0%, rgba(11,14,20,0) 80%);
-  border: none !important;
+  border: 1.5px solid var(--p1-color, #38bdf8);
+  box-shadow: inset 0 0 16px var(--p1-shadow);
+  border-radius: 12px;
+  margin: 6px;
 }
 
 /* Bloc d'affichage et modification des dégâts */
@@ -317,9 +324,8 @@ body {
    ========================================================================== */
 .center-divider {
   height: 42px;
-  background: #05070a;
-  border-top: 2px solid var(--p2-color, #ef4444) !important;
-  border-bottom: 2px solid var(--p1-color, #38bdf8) !important;
+  background: transparent; /* Laisse respirer entre les deux cadres */
+  border: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -409,7 +415,7 @@ body {
    6. MODE SOLO, OVERLAYS & MODALES
    ========================================================================== */
 body.solo-mode .zone-p2 { display: none; }
-body.solo-mode .zone-p1 { border-radius: 12px; margin: 6px;}
+body.solo-mode .zone-p1 { margin: 12px; }
 body.solo-mode .damage-display { font-size: clamp(5.5rem, 25vh, 9rem); }
 body.solo-mode .btn-ctrl { width: 80px; height: 80px; font-size: 3rem; }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'swu-cockpit-v9';
+const CACHE_NAME = 'swu-cockpit-v10';
 
 const ASSETS_TO_CACHE = [
   './',
