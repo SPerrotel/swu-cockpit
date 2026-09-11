@@ -1,0 +1,525 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700;800&display=swap');
+
+/* ==========================================================================
+   1. VARIABLES & PALETTES THÉMATIQUES
+   ========================================================================== */
+:root {
+  --p1-color: #38bdf8;
+  --p1-core: #bae6fd;
+  --p1-shadow: rgba(56, 189, 248, 0.5);
+  --p1-bg: #04101a;
+
+  --p2-color: #ef4444;
+  --p2-core: #fecaca;
+  --p2-shadow: rgba(239, 68, 68, 0.5);
+  --p2-bg: #180507;
+  
+  --force-color: #0ea5e9;
+  --obscur-color: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  color: #e2e8f0;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background-color: #0b0e14;
+  background-image: 
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.6) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 35px 35px, 35px 35px;
+}
+
+/* ==========================================================================
+   2. ZONES DE JOUEURS
+   ========================================================================== */
+.zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(14px, 3.5vw, 32px);
+  position: relative;
+  min-height: 0;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.zone-p2 {
+  background: radial-gradient(circle at center, var(--p2-bg) 0%, rgba(11,14,20,0) 80%);
+  border-bottom: 2px solid var(--p2-shadow);
+  transform: rotate(180deg);
+}
+
+.zone-p1 {
+  background: radial-gradient(circle at center, var(--p1-bg) 0%, rgba(11,14,20,0) 80%);
+  border-top: 2px solid var(--p1-shadow);
+}
+
+/* Bloc d'affichage et modification des dégâts */
+.damage-block {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 18px);
+}
+
+.damage-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.damage-display {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(3.6rem, 16vh, 6.2rem);
+  font-weight: 900;
+  min-width: clamp(95px, 20vw, 150px);
+  text-align: center;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.zone-p1 .damage-display {
+  color: var(--p1-color);
+  text-shadow: 0 0 25px var(--p1-shadow);
+}
+
+.zone-p2 .damage-display {
+  color: var(--p2-color);
+  text-shadow: 0 0 25px var(--p2-shadow);
+}
+
+.btn-ctrl {
+  width: clamp(52px, 12vh, 70px);
+  height: clamp(52px, 12vh, 70px);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #182230, #0c121a);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: clamp(1.8rem, 5vh, 2.5rem);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+  cursor: pointer;
+}
+.btn-ctrl:active { transform: scale(0.92); background: #26354a; }
+
+/* Badges : Victoires/Défaites et Base Max */
+.record-badge {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.7rem, 2vh, 0.85rem);
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  letter-spacing: 1.5px;
+  transition: all 0.2s;
+}
+.record-badge:active { transform: scale(0.92); }
+.zone-p1 .record-badge { color: var(--p1-color); border-color: var(--p1-shadow); text-shadow: 0 0 8px var(--p1-shadow); }
+.zone-p2 .record-badge { color: var(--p2-color); border-color: var(--p2-shadow); text-shadow: 0 0 8px var(--p2-shadow); }
+
+.btn-base-badge {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.65rem, 1.8vh, 0.75rem);
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: all 0.2s;
+}
+.btn-base-badge:active { transform: scale(0.95); }
+.zone-p1 .btn-base-badge { color: var(--p1-color); text-shadow: 0 0 8px var(--p1-shadow); border-color: var(--p1-shadow); }
+.zone-p2 .btn-base-badge { color: var(--p2-color); text-shadow: 0 0 8px var(--p2-shadow); border-color: var(--p2-shadow); }
+
+/* ==========================================================================
+   3. MÉTADONNÉES LATÉRALES (CHRONO, SABRE, COULEUR)
+   ========================================================================== */
+.meta-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chrono-mirror {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.2rem, 4vh, 1.7rem);
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+.zone-p1 .chrono-mirror { color: var(--p1-color); text-shadow: 0 0 10px var(--p1-shadow); }
+.zone-p2 .chrono-mirror { color: var(--p2-color); text-shadow: 0 0 10px var(--p2-shadow); }
+
+.timer-warning {
+  color: #f59e0b !important;
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.8) !important;
+  animation: pulseTimer 1.2s infinite alternate;
+}
+
+@keyframes pulseTimer {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Jeton Sabre d'Initiative */
+.saber-initiator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+}
+.saber-initiator:active { transform: scale(0.96); }
+
+.saber-construct {
+  display: flex;
+  align-items: center;
+  height: 18px;
+}
+
+.saber-hilt {
+  width: 28px;
+  height: 10px;
+  background: linear-gradient(180deg, #d1d5db 0%, #4b5563 50%, #1f2937 100%);
+  border-radius: 2px 0 0 2px;
+  border: 1px solid #9ca3af;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+  z-index: 2;
+}
+
+.saber-blade {
+  height: 7px;
+  width: 14px; 
+  background: rgba(255, 255, 255, 0.12); 
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.zone-p1.active .saber-blade {
+  width: clamp(65px, 15vw, 95px);
+  background: linear-gradient(180deg, var(--p1-core) 0%, var(--p1-color) 100%) !important;
+  border: 1px solid var(--p1-core) !important;
+  box-shadow: 0 0 8px var(--p1-color), 0 0 18px var(--p1-color), 0 0 32px var(--p1-shadow) !important;
+}
+
+.zone-p2.active .saber-blade {
+  width: clamp(65px, 15vw, 95px);
+  background: linear-gradient(180deg, var(--p2-core) 0%, var(--p2-color) 100%) !important;
+  border: 1px solid var(--p2-core) !important;
+  box-shadow: 0 0 8px var(--p2-color), 0 0 18px var(--p2-color), 0 0 32px var(--p2-shadow) !important;
+}
+
+.saber-txt {
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  color: #64748b;
+  margin-top: 4px;
+}
+.zone.active .saber-txt {
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+}
+
+.btn-aspect-switch {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.aspect-pill { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #fff; }
+.zone-p1 .aspect-pill { background: var(--p1-color); box-shadow: 0 0 8px var(--p1-color); }
+.zone-p2 .aspect-pill { background: var(--p2-color); box-shadow: 0 0 8px var(--p2-color); }
+
+/* ==========================================================================
+   4. SÉPARATEUR CENTRAL
+   ========================================================================== */
+.center-divider {
+  height: 42px;
+  background: #05070a;
+  border-top: 1px solid #1e293b;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(12px, 3vw, 24px);
+  z-index: 20;
+}
+
+.btn-timer {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-coin-shortcut {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 5px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-coin-shortcut:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.12); }
+
+.round-indicator {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  color: #64748b;
+}
+
+.btn-burger {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE : ADAPTATION MODE PORTRAIT MOBILE
+   ========================================================================== */
+@media (orientation: portrait) {
+  .zone {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px 16px;
+  }
+  .meta-side {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    order: 1;
+  }
+  .chrono-mirror { font-size: 1.3rem; }
+  .zone.active .saber-blade { width: 58px; }
+  .damage-block {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    gap: 14px;
+    margin: auto 0;
+  }
+  .damage-display {
+    font-size: 5.2rem;
+    min-width: 120px;
+  }
+  .btn-ctrl {
+    width: 64px;
+    height: 64px;
+    font-size: 2.3rem;
+  }
+  .damage-center { gap: 6px; }
+}
+
+/* ==========================================================================
+   6. MODE SOLO, OVERLAYS & MODALES
+   ========================================================================== */
+body.solo-mode .zone-p2 { display: none; }
+body.solo-mode .zone-p1 { border-top: none; }
+body.solo-mode .damage-display { font-size: clamp(5.5rem, 25vh, 9rem); }
+body.solo-mode .btn-ctrl { width: 80px; height: 80px; font-size: 3rem; }
+
+.time-up-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 150;
+  box-shadow: inset 0 0 60px rgba(239, 68, 68, 0.8);
+  display: none;
+  animation: flashAlarm 0.8s infinite alternate;
+}
+.time-up-overlay.active { display: block; }
+
+@keyframes flashAlarm {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: #0f1520;
+  z-index: 100;
+  transition: right 0.25s ease-out;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 1px solid #1e293b;
+  overflow-y: auto;
+}
+.drawer.open { right: 0; }
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 8px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.btn-close-drawer { background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer; }
+
+.backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 90; }
+.backdrop.open { display: block; }
+
+.menu-item {
+  background: #17202d;
+  border: 1px solid #243247;
+  color: #f1f5f9;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.menu-item:active { background: #222f42; }
+
+.btn-install { display: none; background: #059669; border-color: #10b981; color: #fff; }
+.btn-solo-toggle { background: #4c1d95; border-color: #7c3aed; color: #ddd6fe; }
+.btn-fullscreen { background: #1e3a5f; border-color: #38bdf8; color: #38bdf8; }
+.btn-close-footer { margin-top: auto; background: #291115; border-color: #4a171e; color: #fca5a5; }
+
+.menu-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.custom-timer-row { display: flex; gap: 6px; }
+.input-custom-min {
+  flex: 1;
+  background: #080d14;
+  border: 1px solid #243247;
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Modal Pile ou Face */
+.modal-box {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 110;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.modal-box.open { display: flex; }
+.modal-title { font-family: 'Orbitron', monospace; font-size: 0.8rem; color: #64748b; letter-spacing: 1px; }
+
+.coin-container { width: 150px; height: 150px; perspective: 1000px; cursor: pointer; }
+.coin-token { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.1s linear; }
+
+.coin-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-align: center;
+  backface-visibility: hidden;
+  background-color: #0c1017;
+  background-image: radial-gradient(circle at center, #1a2230 0%, #05070a 100%);
+}
+
+.coin-force { 
+  border: 4px solid var(--force-color) !important;
+  color: var(--force-color); 
+  text-shadow: 0 0 10px var(--force-color); 
+  box-shadow: 0 0 25px var(--force-color), inset 0 0 18px rgba(14, 165, 233, 0.4) !important; 
+}
+.coin-obscur { 
+  transform: rotateY(180deg); 
+  border: 4px solid var(--obscur-color) !important;
+  color: var(--obscur-color); 
+  text-shadow: 0 0 10px var(--obscur-color); 
+  box-shadow: 0 0 25px var(--obscur-color), inset 0 0 18px rgba(239, 68, 68, 0.4) !important; 
+}
+
+.symbol-rebel { width: 40px; height: 40px; margin-bottom: 8px; position:relative; }
+.symbol-rebel::before { content:''; position:absolute; inset:0; border: 4px solid var(--force-color); border-radius:50% 50% 0 0; }
+.symbol-rebel::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:4px; height:20px; background:var(--force-color); box-shadow: -10px 0 var(--force-color), 10px 0 var(--force-color); }
+
+.symbol-empire { width: 40px; height: 40px; margin-bottom: 8px; position:relative; border: 4px solid var(--obscur-color); border-radius:50%; }
+.symbol-empire::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:25px; height:25px; background:repeating-conic-gradient(var(--obscur-color) 0 30deg, transparent 30deg 60deg); border-radius:50%; }
+
+#coin-status { font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: #64748b; min-height: 1.5em; text-align: center; }
+.modal-btn-row { display: flex; gap: 12px; width: 100%; max-width: 280px; margin-top: 10px; }
+.btn-launch-coin { flex: 1; background: #0ea5e9; color: #000; text-align: center; font-size: 1rem; padding: 12px; }
+.btn-dismiss-modal { flex: 1; background: #222; text-align: center; font-size: 1rem; padding: 12px; }

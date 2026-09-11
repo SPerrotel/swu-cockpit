@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080a0f">
+  
+  <title>Galactic Cockpit SWU</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="time-up-overlay" id="time-up-flash"></div>
+
+  <section class="zone zone-p2" id="zone-p2">
+    <div class="meta-side">
+      <div class="chrono-mirror timer-val" id="timer-p2">55:00</div>
+      
+      <div class="saber-initiator" onclick="toggleInitiative('p2')">
+        <div class="saber-construct">
+          <div class="saber-hilt"></div>
+          <div class="saber-blade"></div>
+        </div>
+        <span class="saber-txt">INITIATIVE</span>
+      </div>
+
+      <button class="btn-aspect-switch" onclick="cycleAspect('p2')">
+        <div class="aspect-pill"></div>
+        <span id="aspect-name-p2">Rouge</span>
+      </button>
+    </div>
+
+    <div class="damage-block">
+      <button class="btn-ctrl" onclick="adjustDamage('p2', -1)">-</button>
+      <div class="damage-center">
+        <button class="record-badge" onclick="cyclePlayerWins('p2')" id="record-p2">V: 0 | D: 0</button>
+        <div class="damage-display" id="dmg-p2">0</div>
+        <button class="btn-base-badge" onclick="cycleBaseCap('p2')" id="base-cap-p2">🛡️ MAX: 30 ↺</button>
+      </div>
+      <button class="btn-ctrl" onclick="adjustDamage('p2', 1)">+</button>
+    </div>
+  </section>
+
+  <div class="center-divider">
+    <button class="btn-timer" id="timer-toggle" onclick="toggleTimer()">▶ START</button>
+    <button class="btn-coin-shortcut" onclick="openCoinModal()">🎲 PILE / FACE</button>
+    <span class="round-indicator" id="round-format-txt">BO3 • 55 MIN</span>
+    <button class="btn-burger" onclick="openDrawer(true)">☰</button>
+  </div>
+
+  <section class="zone zone-p1 active" id="zone-p1">
+    <div class="damage-block">
+      <button class="btn-ctrl" onclick="adjustDamage('p1', -1)">-</button>
+      <div class="damage-center">
+        <button class="record-badge" onclick="cyclePlayerWins('p1')" id="record-p1">V: 0 | D: 0</button>
+        <div class="damage-display" id="dmg-p1">0</div>
+        <button class="btn-base-badge" onclick="cycleBaseCap('p1')" id="base-cap-p1">🛡️ MAX: 30 ↺</button>
+      </div>
+      <button class="btn-ctrl" onclick="adjustDamage('p1', 1)">+</button>
+    </div>
+
+    <div class="meta-side">
+      <div class="chrono-mirror timer-val" id="timer-p1">55:00</div>
+      
+      <div class="saber-initiator" onclick="toggleInitiative('p1')">
+        <div class="saber-construct">
+          <div class="saber-hilt"></div>
+          <div class="saber-blade"></div>
+        </div>
+        <span class="saber-txt">INITIATIVE</span>
+      </div>
+
+      <button class="btn-aspect-switch" onclick="cycleAspect('p1')">
+        <div class="aspect-pill"></div>
+        <span id="aspect-name-p1">Bleu</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="backdrop" id="backdrop" onclick="openDrawer(false)"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span>PANNEAU DU COCKPIT</span>
+      <button class="btn-close-drawer" onclick="openDrawer(false)">✕</button>
+    </div>
+
+    <button id="btn-install-app" class="menu-item btn-install" onclick="triggerPwaInstall()">📲 Installer l'application</button>
+    <button class="menu-item btn-solo-toggle" onclick="toggleSoloMode()" id="btn-solo">📱 Mode Solo (1 Joueur)</button>
+    <button class="menu-item btn-fullscreen" onclick="toggleFullscreen()">⛶ Plein écran</button>
+    
+    <div class="menu-label">REMISE À ZÉRO DU MATCH</div>
+    <button class="menu-item" onclick="resetFullMatch()">↺ Reset Complet (Dégâts & Manches)</button>
+
+    <div class="menu-label">FORMATS STANDARDS</div>
+    <button class="menu-item" onclick="setTimerMinutes(55, 'BO3 • 55 MIN')">BO3 (55 min)</button>
+    <button class="menu-item" onclick="setTimerMinutes(30, 'BO1 • 30 MIN')">BO1 (30 min)</button>
+    <button class="menu-item" onclick="setTimerMinutes(25, 'DRAFT • 25 MIN')">Draft (25 min)</button>
+    
+    <div class="menu-label">CHRONO PERSONNALISÉ</div>
+    <div class="custom-timer-row">
+      <input type="number" id="input-custom-mins" class="input-custom-min" placeholder="Min" min="1" max="180" value="45">
+      <button class="menu-item" onclick="applyCustomTimer()">Régler</button>
+    </div>
+
+    <button class="menu-item btn-close-footer" onclick="openDrawer(false)">Fermer</button>
+  </aside>
+
+  <div class="modal-box" id="modal-coin">
+    <div class="modal-title">DÉTERMINATION DE L'INITIATIVE</div>
+    <div class="coin-container" onclick="flipInitiativeCoin()">
+      <div class="coin-token" id="coin-asset">
+        <div class="coin-face coin-force">
+          <div class="symbol-rebel"></div>
+          <div>CÔTÉ<br>HÉROÏSME</div>
+        </div>
+        <div class="coin-face coin-obscur">
+          <div class="symbol-empire"></div>
+          <div>CÔTÉ<br>INFAMIE</div>
+        </div>
+      </div>
+    </div>
+    <div id="coin-status">Tapez sur la pièce pour lancer</div>
+    <div class="modal-btn-row">
+      <button class="menu-item btn-launch-coin" onclick="flipInitiativeCoin()">LANCER</button>
+      <button class="menu-item btn-dismiss-modal" onclick="closeCoinModal()">FERMER</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
