@@ -1,4 +1,4 @@
-const CACHE_NAME = 'swu-cockpit-v6';
+const CACHE_NAME = 'swu-cockpit-v7';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -6,7 +6,12 @@ const ASSETS_TO_CACHE = [
   './style.css',
   './app.js',
   './manifest.json',
-  './icon.svg'
+  './icon.svg',
+  './fonts/orbitron-700.woff2',
+  './fonts/orbitron-900.woff2',
+  './fonts/rajdhani-400.woff2',
+  './fonts/rajdhani-600.woff2',
+  './fonts/rajdhani-700.woff2'
 ];
 
 self.addEventListener('install', (event) => {
