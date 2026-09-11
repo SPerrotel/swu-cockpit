@@ -121,7 +121,7 @@ body {
 }
 .btn-ctrl:active { transform: scale(0.92); background: #26354a; }
 
-/* Badges : Victoires/Défaites et Base Max */
+/* Badges : Victoires/Défaites (Affichage fixe non cliquable) */
 .record-badge {
   font-family: 'Orbitron', monospace;
   font-size: clamp(0.7rem, 2vh, 0.85rem);
@@ -130,11 +130,12 @@ body {
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
   letter-spacing: 1.5px;
-  transition: all 0.2s;
 }
-.record-badge:active { transform: scale(0.92); }
+
 .zone-p1 .record-badge { color: var(--p1-color); border-color: var(--p1-shadow); text-shadow: 0 0 8px var(--p1-shadow); }
 .zone-p2 .record-badge { color: var(--p2-color); border-color: var(--p2-shadow); text-shadow: 0 0 8px var(--p2-shadow); }
 
